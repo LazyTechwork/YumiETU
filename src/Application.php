@@ -33,6 +33,7 @@ class Application
 
     private DatabaseMigrationRepository $migrationRepository;
     private Migrator $migrator;
+    private Capsule $capsule;
 
     /**
      * @throws TelegramException
@@ -65,8 +66,8 @@ class Application
 
     private function bootEloquent(): void
     {
-        $capsule = new Capsule();
-        $capsule->addConnection([
+        $this->capsule = new Capsule();
+        $this->capsule->addConnection([
             'driver' => $_ENV['DB_DRIVER'],
             'host' => $_ENV['DB_HOST'],
             'port' => $_ENV['DB_PORT'],
@@ -77,14 +78,14 @@ class Application
             'collation' => 'utf8_unicode_ci',
             'prefix' => '',
         ]);
-        $capsule->bootEloquent();
-        $capsule->setAsGlobal();
+        $this->capsule->bootEloquent();
+        $this->capsule->setAsGlobal();
 
         $this->migrationRepository = new DatabaseMigrationRepository(
-            $capsule->getDatabaseManager(), 'migrations'
+            $this->capsule->getDatabaseManager(), 'migrations'
         );
         $this->migrator = new Migrator(
-            $this->migrationRepository, $capsule->getDatabaseManager(),
+            $this->migrationRepository, $this->capsule->getDatabaseManager(),
             new Filesystem()
         );
     }
@@ -157,5 +158,13 @@ class Application
     public function getMigrationRepository(): DatabaseMigrationRepository
     {
         return $this->migrationRepository;
+    }
+
+    /**
+     * @return Capsule
+     */
+    public function getCapsule(): Capsule
+    {
+        return $this->capsule;
     }
 }
