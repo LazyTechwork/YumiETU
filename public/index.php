@@ -2,6 +2,7 @@
 
 declare(strict_types=1);
 
+use Longman\TelegramBot\Telegram;
 use Symfony\Component\Dotenv\Dotenv;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -37,6 +38,8 @@ $matcher = new UrlMatcher($routes, $context);
 
 try {
     $params = $matcher->match($request->getPathInfo());
+    $TELEGRAM = new Telegram($CONFIG['api_key'], $CONFIG['username']);
+    global $TELEGRAM;
     /** @var Response $response */
     $response = (new $params['controller'])($request);
     return $response->send();
