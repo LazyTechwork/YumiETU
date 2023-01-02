@@ -9,7 +9,8 @@ class Kernel
 {
     protected array $userCommands
         = [
-            ListCommand::class
+            ListCommand::class,
+            ConnectVkCommand::class,
         ];
 
     protected array $adminCommands
