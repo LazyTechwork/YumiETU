@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 use Longman\TelegramBot\Telegram;
 use Symfony\Component\Dotenv\Dotenv;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Exception\ResourceNotFoundException;
@@ -46,5 +47,10 @@ try {
 } catch (ResourceNotFoundException $notFoundException) {
     return (new Response('Not found.', 404))->send();
 } catch (Exception $e) {
-    return (new Response('Internal server error.', 500))->send();
+    return (new JsonResponse(
+        [
+            'exception' => $e->getMessage(), 'file' => $e->getFile(),
+            'line' => $e->getLine(), 'trace' => $e->getTrace()
+        ]
+    ))->send();
 }
