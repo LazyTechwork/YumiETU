@@ -7,6 +7,7 @@ use Monolog\Logger;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Yumi\Commands\Kernel;
 
 class HookController implements Controller
 {
@@ -17,7 +18,7 @@ class HookController implements Controller
     {
         /** @var Logger $LOG */
         global $TELEGRAM, $LOG;
-        $TELEGRAM->addCommandsPath(__DIR__.'/../Commands');
+        $TELEGRAM->addCommandClasses((new Kernel())->commands());
         $LOG->info('Handled hook', $request->toArray());
 
         return new JsonResponse(['handled' => $TELEGRAM->handle()]);
