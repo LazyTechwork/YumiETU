@@ -2,6 +2,7 @@
 
 namespace Yumi\Commands;
 
+use Yumi\Commands\Administrative\MigrateCommand;
 use Yumi\Commands\Marriages\ListCommand;
 
 class Kernel
@@ -13,7 +14,7 @@ class Kernel
 
     protected array $adminCommands
         = [
-
+            MigrateCommand::class
         ];
 
     public function commands(): array
