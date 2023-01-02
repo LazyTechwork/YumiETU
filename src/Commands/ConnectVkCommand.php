@@ -7,8 +7,9 @@ use Longman\TelegramBot\Entities\ServerResponse;
 
 class ConnectVkCommand extends UserCommand
 {
-    protected $name = 'connect vk';
-    protected $usage = '/connect vk <id>';
+    protected $name = 'vk';
+    protected $usage = '/vk';
+    protected $description = 'Позволяет прикрепить аккаунт ВКонтакте к профилю в Аниме клубе';
 
     public function execute(): ServerResponse
     {
