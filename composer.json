@@ -1,0 +1,24 @@
+{
+  "name": "lazytechwork/yumibot",
+  "description": "Yumi Anime Club ETU Bot",
+  "type": "project",
+  "require": {
+    "php": "^8.2",
+    "longman/telegram-bot": "^0.80.0",
+    "illuminate/database": "^9.45",
+    "symfony/dotenv": "^6.2",
+    "illuminate/filesystem": "^9.45"
+  },
+  "license": "proprietary",
+  "autoload": {
+    "psr-4": {
+      "LazyTechwork\\YumiBot\\": "src/"
+    }
+  },
+  "authors": [
+    {
+      "name": "Ivan Petrov",
+      "email": "lazytechwork@gmail.com"
+    }
+  ]
+}
