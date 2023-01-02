@@ -19,7 +19,7 @@ require __DIR__.'/../vendor/autoload.php';
 
 $logger = new Logger('MAIN');
 $logger->pushHandler(
-    new StreamHandler(__DIR__.'/../logs/yumi-log.log', Level::Warning)
+    new StreamHandler(__DIR__.'/../logs/yumi-log.log')
 );
 
 $dotenv = new Dotenv();
