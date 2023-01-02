@@ -24,7 +24,14 @@ class MigrateCommand extends AdminCommand
 
         $this->prepareDatabase();
         try {
-            $this->migrator->run(__DIR__.'/../../../database/migrations');
+            $migrations = $this->migrator->run(
+                __DIR__.'/../../../database/migrations'
+            );
+            return Request::sendMessage([
+                'chat_id' => $this->getMessage()->getChat()->getId(),
+                'text' => "База данных успешно обновлена. Миграции ({${count($migrations)}}):\n"
+                    .implode("\n", $migrations)
+            ]);
         } catch (FileNotFoundException $e) {
             return Request::sendMessage([
                 'chat_id' => $this->getMessage()->getChat()->getId(),
@@ -32,10 +39,6 @@ class MigrateCommand extends AdminCommand
                     .$e->getMessage()
             ]);
         }
-        return Request::sendMessage([
-            'chat_id' => $this->getMessage()->getChat()->getId(),
-            'text' => 'База данных успешно обновлена'
-        ]);
     }
 
 
