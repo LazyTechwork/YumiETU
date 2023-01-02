@@ -1,6 +1,6 @@
 <?php
 
-namespace Yumi\Commands\Marriages;
+namespace Yumi\Commands;
 
 use Longman\TelegramBot\Commands\UserCommand;
 use Longman\TelegramBot\Entities\ServerResponse;
