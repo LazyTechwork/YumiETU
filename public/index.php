@@ -3,6 +3,9 @@
 declare(strict_types=1);
 
 use Longman\TelegramBot\Telegram;
+use Monolog\Handler\StreamHandler;
+use Monolog\Level;
+use Monolog\Logger;
 use Symfony\Component\Dotenv\Dotenv;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -13,6 +16,11 @@ use Symfony\Component\Routing\RequestContext;
 use Symfony\Component\Routing\RouteCollection;
 
 require __DIR__.'/../vendor/autoload.php';
+
+$logger = new Logger('MAIN');
+$logger->pushHandler(
+    new StreamHandler(__DIR__.'/../logs/yumi-log.log', Level::Warning)
+);
 
 $dotenv = new Dotenv();
 $dotenv->load(__DIR__.'/../.env');
@@ -47,6 +55,10 @@ try {
 } catch (ResourceNotFoundException $notFoundException) {
     return (new Response('Not found.', 404))->send();
 } catch (Exception $e) {
+    $logger->error($e->getMessage(), [
+        'file' => $e->getFile(),
+        'line' => $e->getLine(), 'trace' => $e->getTrace()
+    ]);
     return (new JsonResponse(
         [
             'exception' => $e->getMessage(), 'file' => $e->getFile(),
