@@ -11,8 +11,8 @@ use Longman\TelegramBot\Request;
 
 class MigrateCommand extends AdminCommand
 {
-    protected $name = 'system migrate';
-    protected $usage = '/system migrate';
+    protected $name = 'migrate';
+    protected $usage = '/migrate';
     protected $description = 'Выполнить миграцию БД';
     private Migrator $migrator;
     private DatabaseMigrationRepository $migrationRepository;
