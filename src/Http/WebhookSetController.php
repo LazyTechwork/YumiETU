@@ -4,25 +4,17 @@ namespace Yumi\Http;
 
 use Longman\TelegramBot\Exception\TelegramException;
 use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Yumi\Application;
 
 class WebhookSetController implements Controller
 {
-    public function __invoke(Request $request): Response
+    /**
+     * @throws TelegramException
+     */
+    public function __invoke(Application $application): Response
     {
-        global $TELEGRAM, $CONFIG;
-
-        try {
-            $result = $TELEGRAM->setWebhook($CONFIG['hook_uri']);
-            if ($result->isOk()) {
-                return new JsonResponse($result->getRawData());
-            }
-        } catch (TelegramException $e) {
-            return new Response($e->getMessage(), $e->getCode());
-        }
-
-        return new Response('Test', 200);
+        $result = app()->getTelegram()->setWebhook($_ENV['BOT_HOOK_URI']);
+        return new JsonResponse($result->getRawData());
     }
-
 }
