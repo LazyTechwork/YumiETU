@@ -4,6 +4,9 @@ namespace Yumi;
 
 use Closure;
 use Illuminate\Database\Capsule\Manager as Capsule;
+use Illuminate\Database\Migrations\DatabaseMigrationRepository;
+use Illuminate\Database\Migrations\Migrator;
+use Illuminate\Filesystem\Filesystem;
 use Longman\TelegramBot\Exception\TelegramException;
 use Longman\TelegramBot\Telegram;
 use Monolog\ErrorHandler;
@@ -27,6 +30,9 @@ class Application
     private Logger $logger;
 
     private RouteCollection $routes;
+
+    private DatabaseMigrationRepository $migrationRepository;
+    private Migrator $migrator;
 
     /**
      * @throws TelegramException
@@ -72,6 +78,14 @@ class Application
         ]);
         $capsule->bootEloquent();
         $capsule->setAsGlobal();
+
+        $this->migrationRepository = new DatabaseMigrationRepository(
+            $capsule->getDatabaseManager(), 'migrations'
+        );
+        $this->migrator = new Migrator(
+            $this->migrationRepository, $capsule->getDatabaseManager(),
+            new Filesystem()
+        );
     }
 
     private function bootRoutes(): void
@@ -91,6 +105,8 @@ class Application
         $this->telegram = new Telegram(
             $_ENV['BOT_API_KEY'], $_ENV['BOT_USERNAME']
         );
+
+        $this->telegram->enableAdmin(229341720);
     }
 
     private function bootCommands(): void
@@ -124,5 +140,21 @@ class Application
         }
 
         return (new $params['controller'])($request);
+    }
+
+    /**
+     * @return Migrator
+     */
+    public function getMigrator(): Migrator
+    {
+        return $this->migrator;
+    }
+
+    /**
+     * @return DatabaseMigrationRepository
+     */
+    public function getMigrationRepository(): DatabaseMigrationRepository
+    {
+        return $this->migrationRepository;
     }
 }
