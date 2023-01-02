@@ -29,8 +29,10 @@ class MigrateCommand extends AdminCommand
             );
             return Request::sendMessage([
                 'chat_id' => $this->getMessage()->getChat()->getId(),
-                'text' => "База данных успешно обновлена. Миграции ({${count($migrations)}}):\n"
-                    .implode("\n", $migrations)
+                'text' => sprintf(
+                    "База данных успешно обновлена. Миграции (%d):\n%s",
+                    count($migrations), implode("\n", $migrations)
+                )
             ]);
         } catch (FileNotFoundException $e) {
             return Request::sendMessage([
