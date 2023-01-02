@@ -3,7 +3,6 @@
 namespace Yumi\Http;
 
 use Longman\TelegramBot\Exception\TelegramException;
-use Monolog\Logger;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -16,10 +15,8 @@ class HookController implements Controller
      */
     public function __invoke(Request $request): Response
     {
-        /** @var Logger $LOG */
-        global $TELEGRAM, $LOG;
+        global $TELEGRAM;
         $TELEGRAM->addCommandClasses((new Kernel())->commands());
-        $LOG->info('Handled hook', $request->toArray());
 
         return new JsonResponse(['handled' => $TELEGRAM->handle()]);
     }
