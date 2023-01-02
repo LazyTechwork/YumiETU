@@ -2,12 +2,11 @@
 
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
-use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration {
     public function up(): void
     {
-        Schema::create('users', static function (Blueprint $table) {
+        schema()->create('users', static function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('telegram_id')->nullable()->comment(
                 'Telegram ID'
@@ -21,6 +20,6 @@ return new class extends Migration {
 
     public function down(): void
     {
-        Schema::drop('users');
+        schema()->drop('users');
     }
 };
