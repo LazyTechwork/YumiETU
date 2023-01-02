@@ -1,12 +1,12 @@
 <?php
 
-namespace Yumi\Commands;
+namespace Yumi\Commands\Marriages;
 
 use Longman\TelegramBot\Commands\UserCommand;
 use Longman\TelegramBot\Entities\ServerResponse;
 use Longman\TelegramBot\Request;
 
-class ListMarriages extends UserCommand
+class ListCommand extends UserCommand
 {
     protected $name = 'marriages';
     protected $description = 'Список браков';
