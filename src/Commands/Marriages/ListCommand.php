@@ -28,14 +28,14 @@ class ListCommand extends UserCommand
             'chat_id' => $this->getMessage()->getChat()->getId(),
             'text' => "Список браков:\n".$marriages
                     ->map(static fn(Marriage $marriage) => sprintf(
-                        '[%s](tg://user?id=%d) и [%s](tg://user?id=%d) (%d дней)',
-                        $marriage->husband->name,
+                        '<a href="tg://user?id=%d">%s</a> и <a href="tg://user?id=%d">%s</a> (%d дней)',
                         $marriage->husband->telegram_id,
-                        $marriage->wife->name,
+                        $marriage->husband->name,
                         $marriage->wife->telegram_id,
+                        $marriage->wife->name,
                         $marriage->daysSinceMarriage
                     ))->join("\n"),
-            'parse_mode' => 'MarkdownV2'
+            'parse_mode' => 'HTML'
         ]);
         if (!$result->isOk()) {
             logger()->error('Send message failed', $result->getRawData());
