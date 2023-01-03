@@ -38,20 +38,8 @@ class User extends Model
 
     public static function createFromCommand(Command $command): self
     {
-        $firstName = iconv(
-            mb_detect_encoding(
-                $command->getMessage()->getFrom()->getFirstName()
-            ),
-            'utf8',
-            $command->getMessage()->getFrom()->getFirstName(),
-        );
-        $lastName = iconv(
-            mb_detect_encoding(
-                $command->getMessage()->getFrom()->getLastName()
-            ),
-            'utf8',
-            $command->getMessage()->getFrom()->getLastName(),
-        );
+        $firstName = to_utf8($command->getMessage()->getFrom()->getFirstName());
+        $lastName = to_utf8($command->getMessage()->getFrom()->getLastName());
         /** @var User $user */
         $user = self::query()->where(
             'telegram_id',

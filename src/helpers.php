@@ -24,3 +24,14 @@ if (!function_exists('logger')) {
         return app()->getLogger();
     }
 }
+
+if (!function_exists('to_utf8')) {
+    function to_utf8(string $text): string
+    {
+        return iconv(
+            mb_detect_encoding($text, mb_detect_order(), true),
+            "UTF-8",
+            $text
+        );
+    }
+}
