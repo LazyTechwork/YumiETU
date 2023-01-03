@@ -2,14 +2,17 @@
 
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
+use Yumi\Models\User;
 
 return new class extends Migration {
     public function up(): void
     {
         schema()->create('marriages', static function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('husband_id')->index();
-            $table->unsignedBigInteger('wife_id')->index();
+            $table->foreignIdFor(User::class, 'husband_id')->index()
+                ->constrained('users', 'id')->restrictOnDelete();
+            $table->foreignIdFor(User::class, 'wife_id')->index()
+                ->constrained('users', 'id')->restrictOnDelete();
             $table->dateTime('married_since')->useCurrent();
             $table->dateTime('divorced_since')->nullable();
         });
