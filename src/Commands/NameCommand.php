@@ -23,7 +23,7 @@ class NameCommand extends UserCommand
         }
         $name = trim($this->getMessage()->getText(true));
         if (($nameLength = mb_strlen($name)) > User::$CUSTOM_NAME_LENGTH
-            || $nameLength < 4
+            || $nameLength !== 0 && $nameLength < 4
         ) {
             return $this->replyToChat(
                 sprintf(
