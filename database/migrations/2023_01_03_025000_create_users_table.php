@@ -14,6 +14,8 @@ return new class extends Migration {
             $table->unsignedBigInteger('vk_id')->unique()->nullable()->comment(
                 'VK ID'
             );
+            $table->string('first_name')->nullable();
+            $table->string('last_name')->nullable();
             $table->string('custom_name', 16)->nullable()->comment(
                 'Custom admin name for Telegram'
             );
