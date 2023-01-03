@@ -24,17 +24,15 @@ class StatsCommand extends UserCommand
                 ->whereDate('date', '>=', Carbon::now()->subDays($days))
                 ->groupBy('date')
                 ->get()->map(
-                    static fn($it) => [
-                        'date' => $it->date,
-                        'messages' => $it->messages
-                    ]
+                    static fn($it) => sprintf(
+                        "%s: %d",
+                        $it->date->format('d.m.Y'),
+                        $it->messages
+                    )
                 );
 
             return $this->replyToChat(
-                sprintf(
-                    '<pre>%s</pre>',
-                    json_encode($stats, JSON_PRETTY_PRINT)
-                ),
+                $stats,
                 [
                     'reply_to_message_id' => $this->getMessage()->getMessageId()
                 ]
