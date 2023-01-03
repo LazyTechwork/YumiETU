@@ -11,6 +11,7 @@ use Longman\TelegramBot\Exception\TelegramException;
 use Longman\TelegramBot\Telegram;
 use Monolog\ErrorHandler;
 use Monolog\Handler\StreamHandler;
+use Monolog\Level;
 use Monolog\Logger;
 use Symfony\Component\Dotenv\Dotenv;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -56,7 +57,7 @@ class Application
         $this->logger->pushHandler(
             new StreamHandler(__DIR__.'/../logs/yumi-log.log')
         );
-        ErrorHandler::register($this->logger);
+        ErrorHandler::register($this->logger, Level::cases());
     }
 
     private function bootEnv(): void
@@ -141,7 +142,7 @@ class Application
             );
         }
 
-        return (new $params['controller'])($request);
+        return (new $params['controller']())($request);
     }
 
     /**
