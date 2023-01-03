@@ -10,8 +10,10 @@ return new class extends Migration {
             $table->id();
             $table->unsignedBigInteger('telegram_id')->nullable()->comment(
                 'Telegram ID'
-            )->index();
-            $table->unsignedBigInteger('vk_id')->nullable()->comment('VK ID');
+            )->unique()->index();
+            $table->unsignedBigInteger('vk_id')->unique()->nullable()->comment(
+                'VK ID'
+            );
             $table->string('custom_name', 16)->nullable()->comment(
                 'Custom admin name for Telegram'
             );
