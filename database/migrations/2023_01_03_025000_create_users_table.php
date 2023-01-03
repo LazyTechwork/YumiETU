@@ -16,6 +16,8 @@ return new class extends Migration {
                 'Custom admin name for Telegram'
             );
             $table->unsignedTinyInteger('admin_level')->default(0);
+            $table->date('birthday')->nullable();
+            $table->timestamps();
         });
     }
 
