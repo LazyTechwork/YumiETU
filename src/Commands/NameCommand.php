@@ -4,7 +4,6 @@ namespace Yumi\Commands;
 
 use Longman\TelegramBot\Commands\UserCommand;
 use Longman\TelegramBot\Entities\ServerResponse;
-use Longman\TelegramBot\Request;
 use Yumi\Models\User;
 
 class NameCommand extends UserCommand
@@ -50,14 +49,6 @@ class NameCommand extends UserCommand
         $user = User::createFromCommand($this);
         $user->custom_name = $name;
         $user->save();
-
-        $this->replyToChat(
-            Request::setChatAdministratorCustomTitle([
-                'chat_id' => $this->getMessage()->getChat()->getId(),
-                'user_id' => $this->getMessage()->getFrom()->getId(),
-                'custom_name' => mb_substr($name, 0, 16)
-            ])->toJson()
-        );
 
         return $this->replyToChat(
             'Ваше имя было изменено на '.$name.'.', [
