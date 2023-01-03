@@ -10,7 +10,7 @@ use Yumi\Models\Statistics;
 class StatsCommand extends UserCommand
 {
     protected $name = 'stats';
-    protected $usage = '/stats <дни/дата>';
+    protected $usage = '/stats [дни/дата]';
     protected $description = 'Статистика за определённое количество дней или за определённую дату';
 
     public function execute(): ServerResponse
@@ -36,8 +36,11 @@ class StatsCommand extends UserCommand
                     'reply_to_message_id' => $this->getMessage()->getMessageId()
                 ]
             );
-        } elseif (Carbon::canBeCreatedFromFormat($argument, 'd#m#Y')) {
-            $date = Carbon::createFromFormat('d#m#Y', $argument);
+        } elseif (Carbon::canBeCreatedFromFormat($argument, 'd#m#Y')
+            || $argument === ''
+        ) {
+            $date = $argument === '' ? Carbon::now()->startOfDay()
+                : Carbon::createFromFormat('d#m#Y', $argument);
             $stats = Statistics::query()
                 ->whereDate('date', $date)
                 ->orderByDesc('messages')
