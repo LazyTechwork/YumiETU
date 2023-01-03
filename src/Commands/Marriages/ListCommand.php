@@ -20,7 +20,11 @@ class ListCommand extends UserCommand
             ->with(['husband', 'wife'])
             ->orderBy('married_since')
             ->get();
-        return Request::sendMessage([
+        logger()->debug(
+            'Found '.$marriages->count().' marriages.',
+            $marriages->toArray()
+        );
+        $result = Request::sendMessage([
             'chat_id' => $this->getMessage()->getChat()->getId(),
             'text' => "Список браков:\n".$marriages
                     ->map(static fn(Marriage $marriage) => sprintf(
@@ -33,5 +37,10 @@ class ListCommand extends UserCommand
                     ))->join("\n"),
             'parse_mode' => 'MarkdownV2'
         ]);
+        if (!$result->isOk()) {
+            logger()->error('Send message failed', $result->getRawData());
+        }
+
+        return $result;
     }
 }

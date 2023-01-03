@@ -168,4 +168,12 @@ class Application
     {
         return $this->capsule;
     }
+
+    /**
+     * @return Logger
+     */
+    public function getLogger(): Logger
+    {
+        return $this->logger;
+    }
 }
