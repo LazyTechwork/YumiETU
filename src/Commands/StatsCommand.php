@@ -5,7 +5,6 @@ namespace Yumi\Commands;
 use Carbon\Carbon;
 use Longman\TelegramBot\Commands\UserCommand;
 use Longman\TelegramBot\Entities\ServerResponse;
-use Longman\TelegramBot\Request;
 use Yumi\Models\Statistics;
 
 class StatsCommand extends UserCommand
@@ -32,12 +31,38 @@ class StatsCommand extends UserCommand
                 )->join("\n");
 
             return $this->replyToChat(
-                $stats,
+                "Статистика за несколько дней:\n".$stats,
+                [
+                    'reply_to_message_id' => $this->getMessage()->getMessageId()
+                ]
+            );
+        } elseif (Carbon::canBeCreatedFromFormat("d.m.Y", $argument)) {
+            $date = Carbon::createFromFormat("d.m.Y", $argument);
+            $stats = Statistics::query()
+                ->whereDate('date', $date)
+                ->orderByDesc('messages')
+                ->with(['user'])
+                ->get()->map(
+                    static fn(Statistics $stat) => sprintf(
+                        '%s: %d',
+                        $stat->user->name,
+                        $stat->messages
+                    )
+                )->join("\n");
+
+            return $this->replyToChat(
+                "Детализированная статистика за ".$argument.":\n".$stats,
                 [
                     'reply_to_message_id' => $this->getMessage()->getMessageId()
                 ]
             );
         }
-        return Request::emptyResponse();
+        return $this->replyToChat(
+            "Введите дату или количество дней. Ваш аргумент ".$argument
+            ." не подходит",
+            [
+                'reply_to_message_id' => $this->getMessage()->getMessageId()
+            ]
+        );
     }
 }
