@@ -34,7 +34,7 @@ class Marriage extends Model
     {
         return Attribute::get(
             fn() => $this->married_since->diffForHumans(Carbon::now(), [
-                'syntax' => CarbonInterface::DIFF_RELATIVE_TO_OTHER,
+                'syntax' => CarbonInterface::DIFF_ABSOLUTE,
                 'options' => CarbonInterface::SEQUENTIAL_PARTS_ONLY
                     | CarbonInterface::JUST_NOW
             ])
