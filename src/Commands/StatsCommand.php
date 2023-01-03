@@ -20,9 +20,15 @@ class StatsCommand extends UserCommand
         if (is_numeric($argument)) {
             $days = (int)$argument;
             $stats = Statistics::query()
+                ->selectRaw('sum(messages) as messages, date')
                 ->whereDate('date', '>=', Carbon::now()->subDays($days))
-                ->groupBy('date', 'messages')
-                ->sum('messages');
+                ->groupBy('date')
+                ->get()->map(
+                    static fn($it) => [
+                        'date' => $it->date,
+                        'messages' => $it->messages
+                    ]
+                );
 
             return $this->replyToChat(
                 sprintf(
