@@ -36,8 +36,8 @@ class StatsCommand extends UserCommand
                     'reply_to_message_id' => $this->getMessage()->getMessageId()
                 ]
             );
-        } elseif (Carbon::canBeCreatedFromFormat("d.m.Y", $argument)) {
-            $date = Carbon::createFromFormat("d.m.Y", $argument);
+        } elseif (Carbon::hasFormatWithModifiers($argument, 'd#m#Y!')) {
+            $date = Carbon::createFromFormat('d#m#Y!', $argument);
             $stats = Statistics::query()
                 ->whereDate('date', $date)
                 ->orderByDesc('messages')
