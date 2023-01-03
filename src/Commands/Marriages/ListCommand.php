@@ -30,7 +30,8 @@ class ListCommand extends UserCommand
                         $marriage->wife->name,
                         $marriage->wife->telegram_id,
                         $marriage->daysSinceMarriage
-                    ))->join("\n")
+                    ))->join("\n"),
+            'parse_mode' => 'MarkdownV2'
         ]);
     }
 }
