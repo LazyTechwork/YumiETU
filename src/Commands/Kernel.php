@@ -9,6 +9,7 @@ class Kernel
 {
     protected array $userCommands
         = [
+            MessageHandler::class,
             ListCommand::class,
             ConnectVkCommand::class,
         ];
