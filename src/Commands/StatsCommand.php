@@ -22,6 +22,7 @@ class StatsCommand extends UserCommand
                 ->selectRaw('sum(messages) as messages, date')
                 ->whereDate('date', '>=', Carbon::now()->subDays($days))
                 ->groupBy('date')
+                ->orderByDesc('date')
                 ->get()->map(
                     static fn($it) => sprintf(
                         "%s: %d",
