@@ -12,6 +12,7 @@ class Kernel
             MessageHandler::class,
             ListCommand::class,
             ConnectVkCommand::class,
+            StatsCommand::class,
         ];
 
     protected array $adminCommands
