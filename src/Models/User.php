@@ -38,31 +38,26 @@ class User extends Model
 
     public static function createFromCommand(Command $command): self
     {
+        $firstName = mb_convert_encoding(
+            $command->getMessage()->getFrom()->getFirstName(),
+            'utf16',
+            'utf8'
+        );
+        $lastName = mb_convert_encoding(
+            $command->getMessage()->getFrom()->getLastName(),
+            'utf16',
+            'utf8'
+        );
         /** @var User $user */
         $user = self::query()->where(
             'telegram_id',
             $command->getMessage()->getFrom()->getId()
-        )->firstOrCreate(
-            [
-                'telegram_id' => $command->getMessage()->getFrom()->getId(),
-                'first_name' => $command->getMessage()->getFrom()->getFirstName(
-                ),
-                'last_name' => $command->getMessage()->getFrom()->getLastName()
-            ]
-        );
+        )->firstOrCreate();
 
-        if ($user->first_name !== $command->getMessage()->getFrom()
-                ->getFirstName()
-        ) {
-            $user->first_name = $command->getMessage()->getFrom()->getFirstName(
-            );
-        }
-
-        if ($user->last_name !== $command->getMessage()->getFrom()->getLastName(
-            )
-        ) {
-            $user->last_name = $command->getMessage()->getFrom()->getLastName();
-        }
+        $user->fill([
+            'first_name' => $firstName,
+            'last_name' => $lastName
+        ]);
 
         if ($user->isDirty(['first_name', 'last_name'])) {
             $user->save();
