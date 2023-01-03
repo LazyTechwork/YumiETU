@@ -25,6 +25,17 @@ class User extends Model
         );
     }
 
+    public function telegramMention(): Attribute
+    {
+        return Attribute::get(
+            fn() => sprintf(
+                '<a href="tg://user?id=%d">%s</a>',
+                $this->telegram_id,
+                $this->name
+            )
+        );
+    }
+
     public static function createFromCommand(Command $command): self
     {
         /** @var User $user */
