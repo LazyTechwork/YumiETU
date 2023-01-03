@@ -76,7 +76,7 @@ class Application
             'database' => $_ENV['DB_DATABASE'],
             'username' => $_ENV['DB_USERNAME'],
             'password' => $_ENV['DB_PASSWORD'],
-            'charset' => 'utf16',
+            'charset' => 'utf8',
             'collation' => 'utf16_unicode_ci',
             'prefix' => '',
         ]);
