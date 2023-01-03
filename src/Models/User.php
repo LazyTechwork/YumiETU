@@ -39,12 +39,16 @@ class User extends Model
     public static function createFromCommand(Command $command): self
     {
         $firstName = iconv(
-            'utf16',
+            mb_detect_encoding(
+                $command->getMessage()->getFrom()->getFirstName()
+            ),
             'utf8',
             $command->getMessage()->getFrom()->getFirstName(),
         );
         $lastName = iconv(
-            'utf16',
+            mb_detect_encoding(
+                $command->getMessage()->getFrom()->getLastName()
+            ),
             'utf8',
             $command->getMessage()->getFrom()->getLastName(),
         );
