@@ -29,7 +29,7 @@ class StatsCommand extends UserCommand
                         $it->date->format('d.m.Y'),
                         $it->messages
                     )
-                );
+                )->join("\n");
 
             return $this->replyToChat(
                 $stats,
