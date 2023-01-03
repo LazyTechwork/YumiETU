@@ -36,7 +36,8 @@ class Marriage extends Model
             fn() => $this->married_since->diffForHumans(Carbon::now(), [
                 'syntax' => CarbonInterface::DIFF_ABSOLUTE,
                 'options' => CarbonInterface::SEQUENTIAL_PARTS_ONLY
-                    | CarbonInterface::JUST_NOW
+                    | CarbonInterface::JUST_NOW,
+                'parts' => 2
             ])
         );
     }
