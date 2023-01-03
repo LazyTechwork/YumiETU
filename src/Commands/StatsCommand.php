@@ -36,7 +36,7 @@ class StatsCommand extends UserCommand
                     'reply_to_message_id' => $this->getMessage()->getMessageId()
                 ]
             );
-        } elseif (Carbon::hasFormatWithModifiers($argument, 'd#m#Y!')) {
+        } elseif (Carbon::canBeCreatedFromFormat($argument, 'd#m#Y!')) {
             $date = Carbon::createFromFormat('d#m#Y!', $argument);
             $stats = Statistics::query()
                 ->whereDate('date', $date)
@@ -51,7 +51,8 @@ class StatsCommand extends UserCommand
                 )->join("\n");
 
             return $this->replyToChat(
-                "Детализированная статистика за ".$argument.":\n".$stats,
+                "Детализированная статистика за ".$date->format('d.m.Y').":\n"
+                .$stats,
                 [
                     'reply_to_message_id' => $this->getMessage()->getMessageId()
                 ]
