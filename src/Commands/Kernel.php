@@ -3,6 +3,7 @@
 namespace Yumi\Commands;
 
 use Yumi\Commands\Administrative\MigrateCommand;
+use Yumi\Commands\Marriages\DivorceCommand;
 use Yumi\Commands\Marriages\ListCommand;
 use Yumi\Commands\Marriages\MarryCommand;
 
@@ -15,12 +16,13 @@ class Kernel
             ConnectVkCommand::class,
             StatsCommand::class,
             NameCommand::class,
-            MarryCommand::class,
         ];
 
     protected array $adminCommands
         = [
-            MigrateCommand::class
+            MigrateCommand::class,
+            MarryCommand::class,
+            DivorceCommand::class,
         ];
 
     public function commands(): array
