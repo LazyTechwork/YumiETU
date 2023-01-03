@@ -46,17 +46,17 @@ class StatsCommand extends UserCommand
                 ->whereDate('date', $date)
                 ->orderByDesc('messages')
                 ->with(['user'])
-                ->get()->map(
+                ->get();
+
+            return $this->replyToChat(
+                "Детализированная статистика за ".$date->format('d.m.Y').":\n"
+                .$stats->map(
                     static fn(Statistics $stat) => sprintf(
                         '%s: %d',
                         $stat->user->name,
                         $stat->messages
                     )
-                )->join("\n");
-
-            return $this->replyToChat(
-                "Детализированная статистика за ".$date->format('d.m.Y').":\n"
-                .$stats,
+                )->join("\n")."\n\nВсего: ".$stats->sum('messages'),
                 [
                     'reply_to_message_id' => $this->getMessage()->getMessageId()
                 ]
