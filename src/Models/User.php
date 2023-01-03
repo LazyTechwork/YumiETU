@@ -44,7 +44,11 @@ class User extends Model
         $user = self::query()->where(
             'telegram_id',
             $command->getMessage()->getFrom()->getId()
-        )->firstOrCreate();
+        )->firstOrCreate([
+            'telegram_id' => $command->getMessage()->getFrom()->getId(),
+            'first_name' => $firstName,
+            'last_name' => $lastName
+        ]);
 
         $user->fill([
             'first_name' => $firstName,
