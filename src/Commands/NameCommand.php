@@ -15,7 +15,7 @@ class NameCommand extends UserCommand
 
     public function execute(): ServerResponse
     {
-        if ($this->getMessage()->getChat()->isSuperGroup()) {
+        if (!$this->getMessage()->getChat()->isSuperGroup()) {
             return $this->replyToChat(
                 'Команду можно выполнять только в беседе',
                 ['reply_to_message_id' => $this->getMessage()->getMessageId()]
