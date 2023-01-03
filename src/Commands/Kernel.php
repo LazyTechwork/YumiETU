@@ -4,6 +4,7 @@ namespace Yumi\Commands;
 
 use Yumi\Commands\Administrative\MigrateCommand;
 use Yumi\Commands\Marriages\ListCommand;
+use Yumi\Commands\Marriages\MarryCommand;
 
 class Kernel
 {
@@ -14,6 +15,7 @@ class Kernel
             ConnectVkCommand::class,
             StatsCommand::class,
             NameCommand::class,
+            MarryCommand::class,
         ];
 
     protected array $adminCommands
