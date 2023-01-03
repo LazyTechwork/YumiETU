@@ -19,14 +19,11 @@ class ListCommand extends UserCommand
             ->with(['husband', 'wife'])
             ->orderBy('married_since')
             ->get();
-        logger()->debug(
-            'Found '.$marriages->count().' marriages.',
-            $marriages->toArray()
-        );
+
         $result = $this->replyToChat(
             "Список браков:\n".$marriages
                 ->map(static fn(Marriage $marriage) => sprintf(
-                    '<a href="tg://user?id=%d">%s</a> и <a href="tg://user?id=%d">%s</a> (%d дней)',
+                    '<a href="tg://user?id=%d">%s</a> и <a href="tg://user?id=%d">%s</a> (%s)',
                     $marriage->husband->telegram_id,
                     $marriage->husband->name,
                     $marriage->wife->telegram_id,
@@ -40,6 +37,7 @@ class ListCommand extends UserCommand
                 'reply_to_message_id' => $this->getMessage()->getMessageId()
             ]
         );
+
         if (!$result->isOk()) {
             logger()->error('Send message failed', $result->getRawData());
         }

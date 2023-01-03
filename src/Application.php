@@ -2,6 +2,7 @@
 
 namespace Yumi;
 
+use Carbon\Carbon;
 use Closure;
 use Illuminate\Database\Capsule\Manager as Capsule;
 use Illuminate\Database\Migrations\DatabaseMigrationRepository;
@@ -89,6 +90,8 @@ class Application
             $this->migrationRepository, $this->capsule->getDatabaseManager(),
             new Filesystem()
         );
+
+        Carbon::setLocale('ru');
     }
 
     private function bootRoutes(): void
