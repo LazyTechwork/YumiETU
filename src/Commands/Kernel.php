@@ -16,6 +16,7 @@ class Kernel
             ConnectVkCommand::class,
             StatsCommand::class,
             NameCommand::class,
+            MeCommand::class,
         ];
 
     protected array $adminCommands
