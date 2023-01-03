@@ -16,6 +16,13 @@ class MarryCommand extends UserCommand
     {
         $wife = $this->getMessage()->getText(true);
         $this->replyToChat('<pre>'.$wife.'</pre>', ['parse_mode' => 'HTML']);
+        $this->replyToChat(
+            '<pre>'.json_encode(
+                $this->getMessage()->getEntities(),
+                JSON_PRETTY_PRINT
+            ).'</pre>',
+            ['parse_mode' => 'HTML']
+        );
 
         return Request::emptyResponse();
     }
