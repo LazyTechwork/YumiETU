@@ -13,6 +13,7 @@ class Kernel
             ListCommand::class,
             ConnectVkCommand::class,
             StatsCommand::class,
+            NameCommand::class,
         ];
 
     protected array $adminCommands

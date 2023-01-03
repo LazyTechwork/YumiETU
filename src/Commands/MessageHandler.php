@@ -19,17 +19,9 @@ class MessageHandler extends SystemCommand
         if ($this->getMessage()->getFrom()->getIsBot()) {
             return Request::emptyResponse();
         }
-        /** @var User $user */
-        $user = User::query()->where(
-            'telegram_id',
-            $this->getMessage()->getFrom()->getId()
-        )->firstOrCreate(
-            [
-                'telegram_id' => $this->getMessage()->getFrom()->getId(),
-                'first_name' => $this->getMessage()->getFrom()->getFirstName(),
-                'last_name' => $this->getMessage()->getFrom()->getLastName()
-            ]
-        );
+
+        $user = User::createFromCommand($this);
+
         Statistics::query()
             ->where('user_id', '=', $user->id)
             ->whereDate('date', Carbon::now()->startOfDay())
