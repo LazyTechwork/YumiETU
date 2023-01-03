@@ -4,6 +4,9 @@
   "type": "project",
   "require": {
     "php": "^8.2",
+    "ext-iconv": "*",
+    "ext-mysql": "*",
+    "ext-mbstring": "*",
     "longman/telegram-bot": "^0.80.0",
     "illuminate/database": "^9.45",
     "symfony/dotenv": "^6.2",

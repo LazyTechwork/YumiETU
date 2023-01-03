@@ -38,15 +38,15 @@ class User extends Model
 
     public static function createFromCommand(Command $command): self
     {
-        $firstName = mb_convert_encoding(
+        $firstName = iconv(
+            'utf16',
+            'utf8',
             $command->getMessage()->getFrom()->getFirstName(),
-            'utf16',
-            'utf8'
         );
-        $lastName = mb_convert_encoding(
-            $command->getMessage()->getFrom()->getLastName(),
+        $lastName = iconv(
             'utf16',
-            'utf8'
+            'utf8',
+            $command->getMessage()->getFrom()->getLastName(),
         );
         /** @var User $user */
         $user = self::query()->where(
