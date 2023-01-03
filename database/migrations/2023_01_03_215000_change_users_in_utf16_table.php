@@ -9,13 +9,13 @@ return new class extends Migration {
         schema()->table('users', static function (Blueprint $table) {
             $table->string('first_name')->nullable()->collation(
                 'utf16_unicode_ci'
-            )->change();
+            )->charset('utf16')->change();
             $table->string('last_name')->nullable()->collation(
                 'utf16_unicode_ci'
-            )->change();
+            )->charset('utf16')->change();
             $table->string('custom_name', 16)->nullable()->comment(
                 'Custom admin name for Telegram'
-            )->collation('utf16_unicode_ci')->change();
+            )->collation('utf16_unicode_ci')->charset('utf16')->change();
         });
     }
 
