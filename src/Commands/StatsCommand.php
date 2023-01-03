@@ -21,7 +21,7 @@ class StatsCommand extends UserCommand
             $days = (int)$argument;
             $stats = Statistics::query()
                 ->whereDate('date', '>=', Carbon::now()->subDays($days))
-                ->groupBy('date')
+                ->groupBy('date', 'messages')
                 ->sum('messages');
 
             return $this->replyToChat(
