@@ -92,6 +92,7 @@ class Application
         );
 
         Carbon::setLocale('ru');
+        date_default_timezone_set('Europe/Moscow');
     }
 
     private function bootRoutes(): void
