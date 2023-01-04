@@ -43,14 +43,21 @@ class MeCommand extends UserCommand
                         $marriage->husband->telegramMention,
                         $marriage->wife->telegramMention,
                         $marriage->id,
-                        $marriage->divorced_since !== null ? sprintf(
-                            '%s&mdash;%s, в браке %d дней',
+                        $marriage->divorced_since !== null
+                            ? sprintf(
+                            'с %s по %s, в браке %d дней',
                             $marriage->married_since->format('d.m.Y'),
                             $marriage->divorced_since->format('d.m.Y'),
                             $marriage->divorced_since->diffInDays(
                                 $marriage->married_since
                             )
-                        ) : $marriage->daysSinceMarriage
+                        )
+                            : sprintf(
+                            'с %s, в браке %s',
+                            $marriage
+                                ->married_since->format('d.m.Y'),
+                            $marriage->daysSinceMarriage
+                        )
                     )
                 )->join("\n")
             ), [
