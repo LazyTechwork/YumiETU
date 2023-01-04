@@ -11,6 +11,7 @@ class InfoCommand extends AdminCommand
     protected $name = 'info';
     protected $usage = '/info <id>';
     protected $description = 'Получить информацию о человеке';
+    protected $private_only = false;
 
     public function execute(): ServerResponse
     {
