@@ -22,7 +22,7 @@ class MarryCommand extends AdminCommand
         $args = explode(' ', trim($this->getMessage()->getText(true)), 3);
         if (!is_numeric($args[0]) || !is_numeric($args[1])
             || (count($args) === 3
-                && !Carbon::canBeCreatedFromFormat($args[2], "d#m#Y"))
+                && !Carbon::canBeCreatedFromFormat($args[2], "!d#m#Y"))
         ) {
             return $this->replyToChat(
                 'Введены неправильные параметры',
@@ -76,7 +76,10 @@ class MarryCommand extends AdminCommand
             );
         }
 
-        $date = count($args) === 3 ? Carbon::createFromFormat("d#m#Y", $args[2])
+        $date = count($args) === 3 ? Carbon::createFromFormat(
+            "!d#m#Y",
+            $args[2]
+        )
             : Carbon::now();
 
         /** @var Marriage $marriage */
