@@ -110,4 +110,39 @@ class User extends Model
 
         return $user;
     }
+
+    public function getEncryptedUserId(): string
+    {
+        return openssl_encrypt(
+            $this->id.'_'.$this->telegram_id,
+            'aes-128-gcm',
+            $_ENV['APP_KEY']
+        );
+    }
+
+    public static function decryptUser(string $data): User|null
+    {
+        $user_id = explode(
+            '_',
+            openssl_encrypt(
+                $data,
+                'aes-128-gcm',
+                $_ENV['APP_KEY']
+            ),
+            2
+        );
+        if (count($user_id) < 2 || !is_numeric($user_id[0])
+            || !is_numeric(
+                $user_id[1]
+            )
+        ) {
+            return null;
+        }
+        /** @var User $user */
+        $user = self::query()->where('id', $user_id[0])->where(
+            'telegram_id',
+            $user_id[1]
+        )->first();
+        return $user;
+    }
 }
