@@ -24,6 +24,7 @@ class Kernel
             MigrateCommand::class,
             MarryCommand::class,
             DivorceCommand::class,
+            InfoCommand::class,
         ];
 
     public function commands(): array
