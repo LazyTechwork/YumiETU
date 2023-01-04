@@ -16,7 +16,8 @@
     "symfony/http-foundation": "^6.2",
     "monolog/monolog": "^3.2",
     "doctrine/dbal": "^3.5",
-    "vkcom/vk-php-sdk": "^5.101"
+    "vkcom/vk-php-sdk": "^5.101",
+    "illuminate/encryption": "^9.46"
   },
   "license": "proprietary",
   "autoload": {

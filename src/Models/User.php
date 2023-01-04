@@ -113,22 +113,14 @@ class User extends Model
 
     public function getEncryptedUserId(): string
     {
-        return openssl_encrypt(
-            $this->id.'_'.$this->telegram_id,
-            'aes-128-gcm',
-            $_ENV['APP_KEY']
-        );
+        return encrypter()->encrypt($this->id.'_'.$this->telegram_id);
     }
 
     public static function decryptUser(string $data): User|null
     {
         $user_id = explode(
             '_',
-            openssl_encrypt(
-                $data,
-                'aes-128-gcm',
-                $_ENV['APP_KEY']
-            ),
+            encrypter()->decrypt($data),
             2
         );
         if (count($user_id) < 2 || !is_numeric($user_id[0])

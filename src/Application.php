@@ -7,6 +7,7 @@ use Closure;
 use Illuminate\Database\Capsule\Manager as Capsule;
 use Illuminate\Database\Migrations\DatabaseMigrationRepository;
 use Illuminate\Database\Migrations\Migrator;
+use Illuminate\Encryption\Encrypter;
 use Illuminate\Filesystem\Filesystem;
 use Longman\TelegramBot\Exception\TelegramException;
 use Longman\TelegramBot\Telegram;
@@ -36,6 +37,7 @@ class Application
     private DatabaseMigrationRepository $migrationRepository;
     private Migrator $migrator;
     private Capsule $capsule;
+    private Encrypter $encrypter;
 
     /**
      * @throws TelegramException
@@ -93,6 +95,8 @@ class Application
 
         Carbon::setLocale('ru');
         date_default_timezone_set('Europe/Moscow');
+
+        $this->encrypter = new Encrypter($_ENV['app_key']);
     }
 
     private function bootRoutes(): void
@@ -179,5 +183,13 @@ class Application
     public function getLogger(): Logger
     {
         return $this->logger;
+    }
+
+    /**
+     * @return Encrypter
+     */
+    public function getEncrypter(): Encrypter
+    {
+        return $this->encrypter;
     }
 }

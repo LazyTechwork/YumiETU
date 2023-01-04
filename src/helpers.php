@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Database\Schema\Builder;
+use Illuminate\Encryption\Encrypter;
 use Monolog\Logger;
 use Yumi\Application;
 
@@ -36,5 +37,12 @@ if (!function_exists('to_utf8')) {
             "UTF-8",
             $text
         );
+    }
+}
+
+if (!function_exists('encrypter')) {
+    function encrypter(): Encrypter
+    {
+        return app()->getEncrypter();
     }
 }
