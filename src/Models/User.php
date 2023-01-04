@@ -45,7 +45,8 @@ class User extends Model
             'telegram_id',
             $command->getMessage()->getFrom()->getId()
         )->firstOrCreate([
-            'telegram_id' => $command->getMessage()->getFrom()->getId(),
+            'telegram_id' => $command->getMessage()->getFrom()->getId()
+        ], [
             'first_name' => $firstName,
             'last_name' => $lastName
         ]);
