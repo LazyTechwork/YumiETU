@@ -36,6 +36,54 @@ class User extends Model
         );
     }
 
+    public function informationInMessage(): string
+    {
+        $marriages = Marriage::query()
+            ->where('wife_id', $this->id)
+            ->orWhere('husband_id', $this->id)
+            ->orderByDesc('married_since')
+            ->with(['wife', 'husband'])
+            ->get();
+
+        return sprintf(
+            "Имя: %s\n"
+            ."Дата рождения: %s\n"
+            ."Идентификатор: %d\n"
+            ."Идентификатор Telegram: %d\n"
+            ."Идентификатор ВКонтакте: %s\n"
+            ."Акты смены гражданского состояния:\n%s",
+            $this->telegramMention,
+            $this->birthday ? $this->birthday->format('d.m.Y')
+                : 'не установлена',
+            $this->id,
+            $this->telegram_id,
+            $this->vk_id ?? 'не связан',
+            $marriages->map(
+                static fn(Marriage $marriage) => sprintf(
+                    'Брак: %s и %s (рег. %d, %s)',
+                    $marriage->husband->telegramMention,
+                    $marriage->wife->telegramMention,
+                    $marriage->id,
+                    $marriage->divorced_since !== null
+                        ? sprintf(
+                        'с %s по %s, в браке %d дней',
+                        $marriage->married_since->format('d.m.Y'),
+                        $marriage->divorced_since->format('d.m.Y'),
+                        $marriage->divorced_since->diffInDays(
+                            $marriage->married_since
+                        )
+                    )
+                        : sprintf(
+                        'с %s, в браке %s',
+                        $marriage
+                            ->married_since->format('d.m.Y'),
+                        $marriage->daysSinceMarriage
+                    )
+                )
+            )->join("\n")
+        );
+    }
+
     public static function createFromCommand(Command $command): self
     {
         $firstName = to_utf8($command->getMessage()->getFrom()->getFirstName());
