@@ -26,8 +26,11 @@ if (!function_exists('logger')) {
 }
 
 if (!function_exists('to_utf8')) {
-    function to_utf8(string $text): string
+    function to_utf8(string|null $text): string|null
     {
+        if ($text === null) {
+            return null;
+        }
         return iconv(
             mb_detect_encoding($text, mb_detect_order(), true),
             "UTF-8",
