@@ -96,7 +96,7 @@ class Application
         Carbon::setLocale('ru');
         date_default_timezone_set('Europe/Moscow');
 
-        $this->encrypter = new Encrypter($_ENV['app_key']);
+        $this->encrypter = new Encrypter($_ENV['APP_KEY'], 'aes-128-cbc');
     }
 
     private function bootRoutes(): void
