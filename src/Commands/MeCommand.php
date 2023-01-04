@@ -43,7 +43,7 @@ class MeCommand extends UserCommand
                         $marriage->husband->telegramMention,
                         $marriage->wife->telegramMention,
                         $marriage->id,
-                        $marriage->divorced_since === null ? sprintf(
+                        $marriage->divorced_since !== null ? sprintf(
                             '%s&mdash;%s, в браке %d дней',
                             $marriage->married_since->format('d.m.Y'),
                             $marriage->divorced_since->format('d.m.Y'),
