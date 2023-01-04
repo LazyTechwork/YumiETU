@@ -37,12 +37,22 @@ class VkAuthController implements Controller
             $code
         );
 
-        $user_id = $response['user_id'];
-        $user->vk_id = $user_id;
+        $vk_id = $response['user_id'];
+        if (User::query()->where('vk_id', $vk_id)->exists()) {
+            return new Response(
+                'Данный аккаунт ВКонтакте уже привязан, отвяжите его, чтобы продолжить.',
+                200
+            );
+        }
+        $user->vk_id = $vk_id;
         $user->save();
 
         return new Response(
-            "К аккаунту Аниме клуба %s был прикреплён аккаунт ВКонтакте с идентификатором: %s\nМожете закрыть это окно",
+            sprintf(
+                "К аккаунту Аниме клуба %s был прикреплён аккаунт ВКонтакте с идентификатором: %d\nМожете закрыть это окно",
+                $user->name,
+                $user->vk_id
+            ),
             200
         );
     }

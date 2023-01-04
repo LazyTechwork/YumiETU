@@ -57,7 +57,11 @@ class User extends Model
                 : 'не установлена',
             $this->id,
             $this->telegram_id,
-            $this->vk_id ?? 'не связан',
+            $this->vk_id ? sprintf(
+                '<a href="https://vk.com/id%d">%d</a>',
+                $this->vk_id,
+                $this->vk_id
+            ) : 'не связан',
             $marriages->map(
                 static fn(Marriage $marriage) => sprintf(
                     'Брак: %s и %s (рег. %d, %s)',
